@@ -1,0 +1,81 @@
+para un k encontrar primer n tal que la cantidad de numeros menores de n, que no tienen 1 sea >=k
+para hacer busqueda binaria necesitamos saber:
+int numSinUnos(int n){
+	//casos Bases
+	-si n<=9:
+		-si n=0 -> 0
+		-si n=1 -> 1
+		-en otro caso -> n-1
+		
+
+	-si n > 9:
+		-sea c' la solucion para n/10 c = 9 * c' //por nueve, por q al añadir otro digito, no se podria repetir el 1
+		-si n/10 no tiene 1:
+			- si n%10 = 1 -> sumar 1
+			- si n%10 > 1 ->(n%10-1) 
+		
+}
+
+
+void cuenta_sinUnos(int n , int & c, bool &hay_unos){
+	if(n<=9){
+		if(n<=1){
+			c=n;
+			
+		}else{
+			c=n-1;
+		}
+		hay_unos = (n==1);
+		
+	}else{
+		cuenta_sinUnos(n/10,c,hay_unos);
+		c *= 9;
+		if(!hay_unos){
+			if(n%10 <= 1){
+				c++;
+			}else{
+				c=((n%10)-1);
+			
+			}
+			hay_unos = hay_unos || ((n%10)==1)
+		}
+		
+	}
+}
+
+//para divide
+
+int min(int k){
+	int inf =0;
+	int sup = 1;
+	int nr = num_sinUnos(sup);
+	while(nr <k){
+		inf = sup;
+		sup *= 2;
+		nr  = num_sinUnos(sup);
+	}
+	if(nr == k)return sup;
+	else return busca(k,inf,sup);
+}
+
+int busca(int k , int inf, int sup){
+	int m =(int sup)/2;
+	if(num_sinUnos(m) >= k){
+		if(num_sinUnos(m+1<k))
+			return m;
+		else return busca(k,inf,n-1);
+	}else{
+		return busca(k,m+n,sup);
+	
+	}
+}
+
+
+
+}
+
+
+
+
+
+}
