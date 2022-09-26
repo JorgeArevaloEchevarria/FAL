@@ -1,0 +1,61 @@
+#include<iostream>
+#include <math.h>
+using namespace std;
+
+// EXAMEN JULIO 2019 
+// como es de optimizacion es un void que la solucion se pasa por parametro
+// falta comprobar que no es slucion 
+void maxMedia(
+				//  datos del problema
+					int n,
+					float maxTiempo, //tiemp maximo de estudio
+					float tiempo[],
+					float c1[], // cuatrimestre 1
+					float c2[], // cuatrimestre 2
+
+				// 	solucion parcial
+				//	bool solParcial[], si quitamos esto, no hay marcaje
+					int k, // tamaño de la solucion parcial
+					float notaC1,
+					float notaC2,
+					float tiempoAcumulado,
+
+				// marcaje 
+					float maxC1, // nota max del primer cuatri
+					float maxC2,
+				// mejor solucion
+					float &mejorNota
+						){
+
+
+	if (k == n){
+		/*¿habría que comprobar si hemos aprobado ambas partes?	*/
+		if (notaC1 + notaC2 > mejorNota){
+			mejorNota = notaC1 + notaC2;
+		}
+		return;
+	}
+	 
+	// opcion 1: nos estudiamos el tema k
+
+	if (tiempoAcumulado + tiempo[k] <= maxTiempo){
+		maxMedia(n, maxTiempo, tiempo, c1, c2, k + 1, 
+					notaC1 + c1[k], notaC2 + c2[k], 
+					tiempoAcumulado + tiempo[k],
+					maxC1 - c1[k], maxC2 - c2[k],
+					mejorNota);
+	}
+
+	// opcion 2: ignoramos el tema k
+	if ((notaC1 + maxC1 - c1[k] >=5 ) && notaC2 + maxC2 - c2[k] >= 5){ // podemos seguir aprobando si no estudio el tema k ???
+
+		if ( notaC1 + notaC2 + maxC1+ maxC2 -c1[k] - c2[k] > mejorNota){ // poda
+
+			maxMedia(n, maxTiempo, tiempo, c1, c2, k + 1,
+				notaC1, notaC2, tiempoAcumulado,
+				maxC1 - c1[k], maxC2 - c2[k],
+				mejorNota);
+		}
+	}
+
+}
